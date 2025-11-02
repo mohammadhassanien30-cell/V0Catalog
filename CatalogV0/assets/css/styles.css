@@ -218,9 +218,9 @@ body.dark-theme {
   font-weight: var(--font-medium);
 }
 
-/* .nav__logo-img {
-  width: 80%;
-} */
+.nav__logo-img {
+  display: none;
+}
 
 .nav__toggle {
   display: inline-flex;
