@@ -668,9 +668,7 @@ body.dark-theme {
     grid-template-columns: 150px;
     justify-content: center;
   }
-  .nav__logo-img {
-  width: 80%;
-}
+
 }
 
 /* For medium devices */
