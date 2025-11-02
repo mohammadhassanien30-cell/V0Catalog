@@ -237,9 +237,6 @@ body.dark-theme {
     box-shadow: 0 1px 4px hsla(0, 4%, 15%, .1);
     transition: .4s;
   }
-  .nav__logo-img {
-  width: 80%;
-}
 }
 
 .nav__img {
@@ -706,9 +703,6 @@ body.dark-theme {
   .footer__container {
     grid-template-columns: repeat(2, 1fr);
   }
-  .nav__logo-img {
-  width: 80%;
-}
 }
 
 @media screen and (min-width: 767px) {
