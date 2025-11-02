@@ -56,6 +56,11 @@
     --small-font-size: .875rem;
     --smaller-font-size: .813rem;
   }
+  
+.nav__logo-img {
+  width: 80%
+}
+
 
 }
 
@@ -237,6 +242,11 @@ body.dark-theme {
     box-shadow: 0 1px 4px hsla(0, 4%, 15%, .1);
     transition: .4s;
   }
+  
+.nav__logo-img {
+  width: 80%
+}
+
 }
 
 .nav__img {
@@ -669,6 +679,10 @@ body.dark-theme {
     justify-content: center;
   }
 
+.nav__logo-img {
+  width: 80%
+}
+
 }
 
 /* For medium devices */
@@ -701,6 +715,11 @@ body.dark-theme {
   .footer__container {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+.nav__logo-img {
+  width: 80%
+}
+
 }
 
 @media screen and (min-width: 767px) {
@@ -771,6 +790,7 @@ body.dark-theme {
   .nav__logo-img {
   width: 80%;
 }
+  
 }
 
 /* For large devices */
@@ -879,6 +899,11 @@ body.dark-theme {
   .nav__logo-img {
   width: 80%;
 }
+  
+.nav__logo-img {
+  width: 80%
+}
+
 }
 /* Overlay covers the page */
 .page-transition {
