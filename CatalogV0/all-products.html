@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Products</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<style>
+.gift__card { position: relative; cursor: pointer; }
+.wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #D84848;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.wishlist-btn:hover { background: #b33b3b; }
+.view-wishlist {
+    display: block;
+    margin: 20px auto;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    border-radius: 10px;
+    width: max-content;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Fancy popup */
+#popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #D84848;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s;
+    opacity: 0;
+}
+#popup.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+}
+#popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50px) scale(0);
+    background: #D84848;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+#popup.show {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+}
+.popup-icon {
+    display: inline-block;
+    font-size: 24px;
+    animation: bounce 0.6s;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Optional: confetti effect */
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+}
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: yellow;
+    border-radius: 50%;
+    animation: confetti 1s ease-out forwards;
+}
+</style>
+</head>
+<body>
+<header>
+    <div id="popup">
+        <span class="popup-icon">🎁</span>
+        <span class="popup-message"></span>
+    </div>
+    <nav class="nav container">
+        <a href="index.html" class="nav__logo">Back Home</a>
+    </nav>
+</header>
+
+<main class="main">
+    <section class="all-products section container">
+        <h2 class="section__title">All Products</h2>
+        <a href="wishlist.html" class="view-wishlist">View Wishlist</a>
+        <div class="gift__container grid">
+            <!-- All products including new gifts -->
+            <article class="gift__card" data-name="Gingerbread" data-price="$15" data-img="assets/img/gift1.png">
+                <img src="assets/img/gift1.png" alt="Gingerbread" class="gift__img">
+                <h3 class="gift__price">$15</h3>
+                <span class="gift__title">Gingerbread</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Santa Claus Hat" data-price="$22" data-img="assets/img/gift2.png">
+                <img src="assets/img/gift2.png" alt="Santa Claus Hat" class="gift__img">
+                <h3 class="gift__price">$22</h3>
+                <span class="gift__title">Santa Claus Hat</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Christmas Tree" data-price="$48" data-img="assets/img/gift3.png">
+                <img src="assets/img/gift3.png" alt="Christmas Tree" class="gift__img">
+                <h3 class="gift__price">$48</h3>
+                <span class="gift__title">Christmas Tree</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Snowman" data-price="$35" data-img="assets/img/gift4.png">
+                <img src="assets/img/gift4.png" alt="Snowman" class="gift__img">
+                <h3 class="gift__price">$35</h3>
+                <span class="gift__title">Snowman</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Candy Stick" data-price="$12" data-img="assets/img/gift5.png">
+                <img src="assets/img/gift5.png" alt="Candy Stick" class="gift__img">
+                <h3 class="gift__price">$12</h3>
+                <span class="gift__title">Candy Stick</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <!-- New gifts -->
+            <article class="gift__card" data-name="Reindeer" data-price="$95" data-img="assets/img/new1.png">
+                <img src="assets/img/new1.png" alt="Reindeer" class="gift__img">
+                <h3 class="gift__price">$95</h3>
+                <span class="gift__title">Reindeer</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Snow Globe" data-price="$20" data-img="assets/img/new2.png">
+                <img src="assets/img/new2.png" alt="Snow Globe" class="gift__img">
+                <h3 class="gift__price">$20</h3>
+                <span class="gift__title">Snow Globe</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Sledge" data-price="$75" data-img="assets/img/new3.png">
+                <img src="assets/img/new3.png" alt="Sledge" class="gift__img">
+                <h3 class="gift__price">$75</h3>
+                <span class="gift__title">Sledge</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+            <article class="gift__card" data-name="Christmas Wreath" data-price="$15" data-img="assets/img/new4.png">
+                <img src="assets/img/new4.png" alt="Christmas Wreath" class="gift__img">
+                <h3 class="gift__price">$15</h3>
+                <span class="gift__title">Christmas Wreath</span>
+                <button class="wishlist-btn">❤️ Wishlist</button>
+            </article>
+        </div>
+    </section>
+</main>
+
+<!-- Fancy popup -->
+<div id="popup"></div>
+
+<script>
+function showPopup(message) {
+    const popup = document.getElementById('popup');
+    popup.innerHTML = message;
+    popup.classList.add('show');
+    setTimeout(() => popup.classList.remove('show'), 2500);
+}
+
+function addToWishlist(item) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (!wishlist.some(w => w.name === item.name)) {
+        wishlist.push({...item, qty: 1});
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        showPopup(`🎁 ${item.name} added to your wishlist!`);
+    } else {
+        showPopup(`⚠️ ${item.name} is already in your wishlist.`);
+    }
+}
+
+// Add event listeners to all cards
+document.querySelectorAll('.gift__card').forEach(card => {
+    const item = {
+        name: card.dataset.name,
+        price: card.dataset.price,
+        img: card.dataset.img
+    };
+
+    // Clicking the image
+    card.querySelector('img').addEventListener('click', () => addToWishlist(item));
+
+    // Clicking the wishlist button
+    card.querySelector('.wishlist-btn').addEventListener('click', e => {
+        e.stopPropagation(); // prevent double trigger
+        addToWishlist(item);
+    });
+});
+
+function showPopup(message, icon="🎁") {
+    const popup = document.getElementById('popup');
+    popup.querySelector('.popup-message').innerText = message;
+    popup.querySelector('.popup-icon').innerText = icon;
+    popup.classList.add('show');
+
+    // optional confetti
+    for (let i = 0; i < 10; i++) {
+        const conf = document.createElement('div');
+        conf.classList.add('confetti');
+        conf.style.left = `${Math.random() * 100}%`;
+        conf.style.background = `hsl(${Math.random()*360}, 80%, 60%)`;
+        popup.appendChild(conf);
+        setTimeout(() => conf.remove(), 1000);
+    }
+
+    setTimeout(() => popup.classList.remove('show'), 2500);
+}
+
+// Example usage: addToWishlist
+function addToWishlist(item) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (!wishlist.some(w => w.name === item.name)) {
+        wishlist.push({...item, qty: 1});
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        showPopup(`${item.name} added!`, "");
+    } else {
+        showPopup(`${item.name} is already in wishlist!`, "");
+    }
+}
+</script>
+</body>
+</html>
+<!-- Fancy interactive popup -->
+

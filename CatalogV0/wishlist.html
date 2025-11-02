@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishlist</title>
+<style>
+body { 
+    font-family: 'Fredoka', sans-serif; 
+    background: #f6f6f6; 
+    margin: 0; 
+    padding: 0; 
+}
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px 100px 20px;
+}
+h1 {
+    color: #D84848;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.wishlist-item { 
+    display: flex; 
+    flex-wrap: nowrap;
+    align-items: center; 
+    gap: 20px; 
+    background: white; 
+    padding: 15px; 
+    border-radius: 16px; 
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.wishlist-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+.wishlist-item img { 
+    width: 100px; 
+    height: 100px;
+    border-radius: 12px; 
+    object-fit: cover;
+}
+.item-info {
+    flex: 1;
+}
+.item-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #333;
+}
+.item-info p {
+    margin: 2px 0;
+    color: #555;
+    font-size: 14px;
+}
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 120px;
+}
+.actions input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: center;
+}
+.actions button {
+    background: #D84848;
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.2s;
+}
+.actions button:hover {
+    background: #b33b3b;
+    transform: scale(1.05);
+}
+.subtotal {
+    font-weight: 700;
+    color: #333;
+    margin-top: 5px;
+    font-size: 14px;
+}
+.totals {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+#add-to-cart {
+    display: block;
+    margin: 15px auto;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    width: 100%;
+    max-width: 300px;
+    position: sticky;
+    bottom: 15px;
+}
+#add-to-cart:hover {
+    background: #45a049;
+    transform: scale(1.03);
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+    .wishlist-item { 
+        flex-direction: row; 
+        align-items: center; 
+        gap: 15px;
+    }
+    .wishlist-item img { width: 80px; height: 80px; }
+    .actions { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        min-width: auto; 
+    }
+    .actions input[type="number"] { width: 50px; }
+    .actions button { width: 100%; padding: 10px; font-size: 16px; }
+    .subtotal { font-size: 13px; margin-top: 5px; }
+    #add-to-cart { max-width: 100%; font-size: 16px; padding: 12px; }
+}
+
+/* Fancy popup */
+#popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #D84848;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s;
+    opacity: 0;
+}
+#popup.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>My Wishlist</h1>
+    <div id="wishlist-container"></div>
+    <div class="totals" id="total-price">Total: $0</div>
+    <button id="add-to-cart">Add All to Cart</button>
+</div>
+
+<!-- Fancy popup -->
+<div id="popup">🎩✨ Your wishlist has been added to the cart! ✨🛍️</div>
+
+<script>
+let container = document.getElementById('wishlist-container');
+let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+function saveWishlist() {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+}
+
+function calculateTotal() {
+    let total = wishlist.reduce((sum, item) => {
+        return sum + (item.qty || 1) * parseFloat(item.price.replace('$',''));
+    }, 0);
+    document.getElementById('total-price').innerText = 'Total: $' + total.toFixed(2);
+}
+
+function attachEvents() {
+    // Delete buttons
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const index = btn.dataset.index;
+            wishlist.splice(index, 1);
+            saveWishlist();
+        });
+    });
+
+    // Quantity change
+    document.querySelectorAll('.qty-input').forEach(input => {
+        input.addEventListener('input', () => {
+            const index = input.dataset.index;
+            let val = parseInt(input.value);
+            if (isNaN(val) || val < 1) val = 1;
+            wishlist[index].qty = val;
+            saveWishlist();
+        });
+    });
+}
+
+function renderWishlist() {
+    container.innerHTML = '';
+    if (wishlist.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#555;">No items in your wishlist yet.</p>';
+        document.getElementById('add-to-cart').style.display = 'none';
+        document.getElementById('total-price').style.display = 'none';
+        return;
+    }
+    document.getElementById('add-to-cart').style.display = 'block';
+    document.getElementById('total-price').style.display = 'block';
+
+    wishlist.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.classList.add('wishlist-item');
+        div.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <div class="item-info">
+                <h3>${item.name}</h3>
+                <p>Price: ${item.price}</p>
+                <p class="subtotal">Subtotal: $${((item.qty || 1) * parseFloat(item.price.replace('$',''))).toFixed(2)}</p>
+            </div>
+            <div class="actions">
+                <input type="number" min="1" value="${item.qty || 1}" data-index="${index}" class="qty-input">
+                <button data-index="${index}" class="delete-btn">Delete</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    attachEvents();
+    calculateTotal();
+}
+
+// Popup
+function showPopup(message) {
+    const popup = document.getElementById('popup');
+    popup.innerHTML = message;
+    popup.classList.add('show');
+    setTimeout(() => popup.classList.remove('show'), 2500);
+}
+
+// Add to cart button
+document.getElementById('add-to-cart').addEventListener('click', () => {
+    if (wishlist.length === 0) return showPopup("🛑 Your wishlist is empty!");
+    showPopup("🎩✨ Your wishlist has been added to the cart! ✨🛍️");
+});
+
+renderWishlist();
+</script>
+
+</body>
+</html>
