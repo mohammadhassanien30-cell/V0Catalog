@@ -207,12 +207,12 @@ body.dark-theme {
   color: var(--title-color);
 }
 
-/* .nav__logo {
+.nav__logo {
   display: flex;
   align-items: center;
   column-gap: .25rem;
   font-weight: var(--font-medium);
-} */
+}
 
 .nav__logo-img {
   width: 80%;
